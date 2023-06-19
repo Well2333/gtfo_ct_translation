@@ -206,7 +206,7 @@ local t = createTimer(getMainForm())
                     end
                   end
 LaunchMonoDataCollector()
-print("GTFO_v0.2.9.963a");
+print("GTFO_v0.2.9.964a");
 {$asm}
 
 [DISABLE]
@@ -242,7 +242,7 @@ luacall(cycleFullCompact(nil,false))
     </CheatEntry>
     <CheatEntry>
       <ID>32</ID>
-      <Description>"[ ALT:Rundown 4.0 - v0.2.9.963a ]"</Description>
+      <Description>"[ ALT:Rundown 4.0 - v0.2.9.964a ]"</Description>
       <Options moHideChildren="1"/>
       <Color>C100C1</Color>
       <GroupHeader>1</GroupHeader>
@@ -1005,39 +1005,42 @@ unregistersymbol(bytesInstakill)
 </AssemblerScript>
                 </CheatEntry>
                 <CheatEntry>
-                  <ID>1337105609</ID>
+                  <ID>1337105665</ID>
                   <Description>"Super Weapons (Similar To Instakill)"</Description>
                   <Color>399943</Color>
                   <VariableType>Auto Assembler Script</VariableType>
                   <AssemblerScript>[ENABLE]
 //Gear.BulletWeapon.BulletHit
-alloc(newmem,2048,"GameAssembly.dll"+907DD3) 
+alloc(SuperWeapons,2048,"GameAssembly.dll"+1851AC3)
 label(returnhere)
 label(originalcode)
 label(exit)
 
-newmem:
+SuperWeapons:
 
 originalcode:
 cmp [rax],01
-je GameAssembly.dll+907DDF
-mulss xmm7,[GameAssembly.dll+27C3770]
+je GameAssembly.dll+1851ACF
+mulss xmm7,[GameAssembly.dll+23C1AD4]
 
 exit:
 jmp returnhere
 
-"GameAssembly.dll"+907DD3:
-jmp newmem
+"GameAssembly.dll"+1851AC3:
+jmp SuperWeapons
 nop 7
 returnhere:
 
+
+ 
+ 
 [DISABLE]
-dealloc(newmem)
-"GameAssembly.dll"+907DD3:
+dealloc(SuperWeapons)
+"GameAssembly.dll"+1851AC3:
 cmp [rax],bl
-je GameAssembly.dll+907DDF
-mulss xmm7,[GameAssembly.dll+27C3770]
-//Alt: db 38 18 74 08 F3 0F 59 3D 91 B9 EB 01
+je GameAssembly.dll+1851ACF
+mulss xmm7,[GameAssembly.dll+23C1AD4]
+//Alt: db 38 18 74 08 F3 0F 59 3D 05 00 B7 00
 </AssemblerScript>
                 </CheatEntry>
                 <CheatEntry>
@@ -3155,19 +3158,18 @@ GameAssembly.dll+18B17BF: 33 D2                    - xor edx,edx
 </AssemblerScript>
                 </CheatEntry>
                 <CheatEntry>
-                  <ID>8399</ID>
+                  <ID>1337105664</ID>
                   <Description>"Enable Booster Condition"</Description>
-                  <Color>1F1AE6</Color>
+                  <Color>399943</Color>
                   <VariableType>Auto Assembler Script</VariableType>
                   <AssemblerScript>[ENABLE]
-//this may change per patch
-//7FFCFBF58793
-alloc(newmem,2048,"GameAssembly.dll"+1E62854)
+//changes after each patch
+alloc(EnableCondition,2048,"GameAssembly.dll"+200493F)
 label(returnhere)
 label(originalcode)
 label(exit)
 
-newmem:
+EnableCondition:
 
 originalcode:
 mov [rax+rdi*8+2C],01
@@ -3176,25 +3178,22 @@ inc [rbx+24]
 exit:
 jmp returnhere
 
-"GameAssembly.dll"+1E62854:
-jmp newmem
+"GameAssembly.dll"+200493F:
+jmp EnableCondition
 nop 2
 returnhere:
 
-
- 
- 
 [DISABLE]
-dealloc(newmem)
-"GameAssembly.dll"+1E62854:
-mov [rax+rdi*8+2C],dl
+dealloc(EnableCondition)
+"GameAssembly.dll"+200493F:
+mov [rax+rdi*8+2C],cl
 inc [rbx+24]
-//Alt: db 88 54 F8 2C FF 43 24
+//Alt: db 88 4C F8 2C FF 43 24
 
 { - How to fix -
 1. Open Memory Viewer
 2. Right-Click &amp; go to address: GameAssembly.dll
-3. click on the Search tab -&gt; find assembly code and paste in the empty box: mov [rax+rdi*8+2C],dl
+3. click on the Search tab -&gt; find assembly code and paste in the empty box: mov [rax+rdi*8+2C],cl
 4. click scan and wait for a 3rd result (usually its the 3rd)
 }
 </AssemblerScript>
@@ -3500,13 +3499,13 @@ db 48
 </AssemblerScript>
                 </CheatEntry>
                 <CheatEntry>
-                  <ID>8400</ID>
+                  <ID>1337105658</ID>
                   <Description>"Set Infection Amount To 0 (Sets To Self)"</Description>
                   <Color>3964F4</Color>
                   <VariableType>Auto Assembler Script</VariableType>
                   <AssemblerScript>[ENABLE]
-aobscanmodule(Set_Infect,Player.LocalPlayerAgent.UpdateInfectionLocal,F3xxxxxxxxxxxxxx33xxxxxxxxxxxxxxxxF3xxxxxxxxxxxxxx0FxxxxxxxxxxF6xxxxxxxxxxxxF3xxxxxxxxxxxxxx74)
-alloc(newmem,$1000,Set_Infect)
+aobscanmodule(Infection,GameAssembly.dll,F3xxxxxxxxxxxxxx0Fxxxxxxxxxxxx0FxxxxxxxxxxF6xxxxxxxxxxxxF3xxxxxxxxxxxxxx74xxxxxxxxxxxxxxxx75)
+alloc(newmem,$1000,Infection)
 
 label(code)
 label(return)
@@ -3515,48 +3514,48 @@ newmem:
 
 code:
   movss xmm0,[rax+000000EC]
-  mov [rax+000000EC],(float)-1.0 //sets to self only (host)
+  mov [rax+000000EC],(float)0.0 //sets to self only (host)
   jmp return
 
-Set_Infect:
+Infection+04:
   jmp newmem
   nop 3
 return:
-registersymbol(Set_Infect)
+registersymbol(Infection)
 
 [DISABLE]
-Set_Infect:
+Infection+04:
   db F3 0F 10 80 EC 00 00 00
 
-unregistersymbol(Set_Infect)
+unregistersymbol(Infection)
 dealloc(newmem)
 
 {
-// ORIGINAL CODE - INJECTION POINT: GameAssembly.dll+151037E
+// ORIGINAL CODE - INJECTION POINT: GameAssembly.dll+13ECA39
 
-GameAssembly.dll+1510342: E8 49 91 B6 FE           - call GameAssembly.il2cpp_runtime_class_init
-GameAssembly.dll+1510347: 48 8B 05 02 D0 B4 01     - mov rax,[GameAssembly.dll+305D350]
-GameAssembly.dll+151034E: 48 8B 80 B8 00 00 00     - mov rax,[rax+000000B8]
-GameAssembly.dll+1510355: F3 0F 10 40 1C           - movss xmm0,[rax+1C]
-GameAssembly.dll+151035A: F3 41 0F 58 C0           - addss xmm0,xmm8
-GameAssembly.dll+151035F: F3 0F 11 83 C8 02 00 00  - movss [rbx+000002C8],xmm0
-GameAssembly.dll+1510367: 48 8B 0D E2 CF B4 01     - mov rcx,[GameAssembly.dll+305D350]
-GameAssembly.dll+151036E: 48 8B 83 98 01 00 00     - mov rax,[rbx+00000198]
-GameAssembly.dll+1510375: 48 85 C0                 - test rax,rax
-GameAssembly.dll+1510378: 0F 84 E3 05 00 00        - je GameAssembly.dll+1510961
+GameAssembly.dll+13ECA08: 75 05                    - jne GameAssembly.dll+13ECA0F
+GameAssembly.dll+13ECA0A: E8 11 3C C8 FE           - call GameAssembly.il2cpp_runtime_class_init
+GameAssembly.dll+13ECA0F: 33 C9                    - xor ecx,ecx
+GameAssembly.dll+13ECA11: E8 EA 24 F4 FE           - call GameAssembly.dll+32EF00
+GameAssembly.dll+13ECA16: F3 0F 58 C7              - addss xmm0,xmm7
+GameAssembly.dll+13ECA1A: F3 0F 11 83 F4 02 00 00  - movss [rbx+000002F4],xmm0
+GameAssembly.dll+13ECA22: 48 8B 0D 5F BA EC 01     - mov rcx,[GameAssembly.dll+32B8488]
+GameAssembly.dll+13ECA29: 48 8B 83 B8 01 00 00     - mov rax,[rbx+000001B8]
+GameAssembly.dll+13ECA30: 48 85 C0                 - test rax,rax
+GameAssembly.dll+13ECA33: 0F 84 A6 03 00 00        - je GameAssembly.dll+13ECDDF
 // ---------- INJECTING HERE ----------
-GameAssembly.dll+151037E: F3 0F 10 80 EC 00 00 00  - movss xmm0,[rax+000000EC]
+GameAssembly.dll+13ECA39: F3 0F 10 80 EC 00 00 00  - movss xmm0,[rax+000000EC]
 // ---------- DONE INJECTING  ----------
-GameAssembly.dll+1510386: 33 F6                    - xor esi,esi
-GameAssembly.dll+1510388: 0F 2F 83 D0 02 00 00     - comiss xmm0,[rbx+000002D0]
-GameAssembly.dll+151038F: F3 0F 10 35 9D 7C CF 00  - movss xmm6,[GameAssembly.dll+2208034]
-GameAssembly.dll+1510397: 0F 86 C7 01 00 00        - jbe GameAssembly.dll+1510564
-GameAssembly.dll+151039D: F6 81 2F 01 00 00 02     - test byte ptr [rcx+0000012F],02
-GameAssembly.dll+15103A4: F3 0F 10 BB C4 02 00 00  - movss xmm7,[rbx+000002C4]
-GameAssembly.dll+15103AC: 74 14                    - je GameAssembly.dll+15103C2
-GameAssembly.dll+15103AE: 39 B1 E0 00 00 00        - cmp [rcx+000000E0],esi
-GameAssembly.dll+15103B4: 75 0C                    - jne GameAssembly.dll+15103C2
-GameAssembly.dll+15103B6: E8 D5 90 B6 FE           - call GameAssembly.il2cpp_runtime_class_init
+GameAssembly.dll+13ECA41: 0F 2F 05 48 50 FD 00     - comiss xmm0,[GameAssembly.dll+23C1A90]
+GameAssembly.dll+13ECA48: 0F 86 5C 03 00 00        - jbe GameAssembly.dll+13ECDAA
+GameAssembly.dll+13ECA4E: F6 81 2F 01 00 00 02     - test byte ptr [rcx+0000012F],02
+GameAssembly.dll+13ECA55: F3 0F 10 BB EC 02 00 00  - movss xmm7,[rbx+000002EC]
+GameAssembly.dll+13ECA5D: 74 0E                    - je GameAssembly.dll+13ECA6D
+GameAssembly.dll+13ECA5F: 83 B9 E0 00 00 00 00     - cmp dword ptr [rcx+000000E0],00
+GameAssembly.dll+13ECA66: 75 05                    - jne GameAssembly.dll+13ECA6D
+GameAssembly.dll+13ECA68: E8 B3 3B C8 FE           - call GameAssembly.il2cpp_runtime_class_init
+GameAssembly.dll+13ECA6D: 33 C9                    - xor ecx,ecx
+GameAssembly.dll+13ECA6F: E8 8C 24 F4 FE           - call GameAssembly.dll+32EF00
 }
 </AssemblerScript>
                 </CheatEntry>
@@ -4485,14 +4484,14 @@ db 40
                   <AssemblerScript>[ENABLE]
 {$lua}
 {$asm}
-aobscanRegion(Disable_Target,Enemies.PouncerBehaviour.ValidateTarget+000, Enemies.PouncerBehaviour.ValidateTarget+40, 40 53 57 48 83 EC 58)
+aobscanRegion(Disable_Target,Enemies.PouncerBehaviour.ValidateTarget+000, Enemies.PouncerBehaviour.ValidateTarget+40, 48 89 5C 24 10)
 Disable_Target:
 db C3
 
 [DISABLE]
-aobscanRegion(Disable_Target,Enemies.PouncerBehaviour.ValidateTarget+000, Enemies.PouncerBehaviour.ValidateTarget+40, C3 53 57 48 83 EC 58)
+aobscanRegion(Disable_Target,Enemies.PouncerBehaviour.ValidateTarget+000, Enemies.PouncerBehaviour.ValidateTarget+40, C3 89 5C 24 10)
 Disable_Target:
-db 40
+db 48
 </AssemblerScript>
                 </CheatEntry>
               </CheatEntries>
@@ -4613,14 +4612,14 @@ ReducePlayer:
 
 originalcode_ReducePlayer:
   cmp byte ptr [rdi+20],00
-  je GameAssembly.dll+864A88
+  je GameAssembly.dll+37FB18
 
 exit_one:
 jmp returnhere
 
 "&lt;MasterScan&gt;d__52.MoveNext"+D26:
 cmp byte ptr [rdi+20],00
-jne GameAssembly.dll+864A88
+jne GameAssembly.dll+37FB18
 
 {
 Set Player Scanner Speeds
@@ -4655,7 +4654,7 @@ movss xmm6,[rdi+24]
 dealloc(ReducePlayer)
 "&lt;MasterScan&gt;d__52.MoveNext"+D26:
 cmp byte ptr [rdi+20],00
-je GameAssembly.dll+864A88
+je GameAssembly.dll+37FB18
 //Alt: db 80 7F 20 00 0F 84 88 00 00 00
 
 </AssemblerScript>
@@ -6878,6 +6877,12 @@ GameAssembly.dll+75C385: 0F 84 28 01 00 00        - je GameAssembly.dll+75C4B3
 85:Storax Kimble Mark I
 108:Kovac Red Ranger
 110:HF Panther 90
+111:HF Hypsibius C
+112:HF Arbustum Mark I
+113:Omneco Reparo
+118:Kovac Green Guard
+119:Santonian Galea Mark I
+125:Storax Aranea Mark I
 </DropDownList>
                   <ShowAsSigned>0</ShowAsSigned>
                   <Color>3964F4</Color>
@@ -6888,19 +6893,20 @@ GameAssembly.dll+75C385: 0F 84 28 01 00 00        - je GameAssembly.dll+75C4B3
                   <ID>8130</ID>
                   <Description>"Equipped Torso --- [Cycle]"</Description>
                   <DropDownList ReadOnly="1" DisplayValueAsItem="1">2:Kovac Carrier model I
-17:Coarse Puffer Vest model I
-41:Kovac Pro-Car Elite
 9:Santonian Spartan Vest model I
+12:Primer Grid model I
+17:Coarse Puffer Vest model I
 24:KDS Spartan Vest model I
 40:10 Nation HL Anorak
-12:Primer Grid model I
-69:Kovac Dragonscale model I
-87:Chem Wader Hyperseal
-103:Commando Rhino Bush Vest
-100:HF Oasis model I
-77:Nyxos Antora
-73:SMC Cut model I
+41:Kovac Pro-Car Elite
 67:Braveer Pathfinder model I
+69:Kovac Dragonscale model I
+73:SMC Cut model I
+77:Nyxos Antora
+87:Chem Wader Hyperseal
+100:HF Oasis model I
+103:Commando Rhino Bush Vest
+115:Kovac Fortis Armis
 </DropDownList>
                   <ShowAsSigned>0</ShowAsSigned>
                   <Color>3964F4</Color>
@@ -6912,18 +6918,19 @@ GameAssembly.dll+75C385: 0F 84 28 01 00 00        - je GameAssembly.dll+75C4B3
                   <Description>"Equipped Legs --- [Cycle]"</Description>
                   <DropDownList ReadOnly="1" DisplayValueAsItem="1">4:Burlap Dexterity
 10:Rough Cut
+13:Heavy Duty Pioneer
 16:Rough Dexterity
-49:Left Behind
 23:Cargo Composite
 43:Sharp Teeth
-13:Heavy Duty Pioneer
+49:Left Behind
 68:Roughneck MDR Cargo
-86:Model W Hyperseal
-102:Commando Mudcrawler Bush Pants
-101:HF Oasis REL
-78:Nyxos Waders
-75:SMC Murk H
 71:Braveer Pathfinder TR
+75:SMC Murk H
+78:Nyxos Waders
+86:Model W Hyperseal
+101:HF Oasis REL
+102:Commando Mudcrawler Bush Pants
+114:Kovac Fortis Cruba
 </DropDownList>
                   <ShowAsSigned>0</ShowAsSigned>
                   <Color>3964F4</Color>
@@ -6934,20 +6941,23 @@ GameAssembly.dll+75C385: 0F 84 28 01 00 00        - je GameAssembly.dll+75C4B3
                   <ID>8132</ID>
                   <Description>"Equipped Backpack --- [Cycle]"</Description>
                   <DropDownList ReadOnly="1" DisplayValueAsItem="1">3:Insight Canteen Runner
-15:KDS Slim Survivalist
 11:Utility Compact Pioneer
-22:Utility Natural Pioneer
 14:KDS Compact Survivalist
+15:KDS Slim Survivalist
+22:Utility Natural Pioneer
 36:Outwear Compact Utility
 37:Braveer Compact Survivalist
 38:KDS Tri-Can Basic
-82:HF van Niel T1
 70:Outwear PM8
-80:KDS Ray Proto Cage
-105:Commando Brawler Bush Pack
 74:STRP Pack Mule
 76:D-Tek Compact WM
+80:KDS Ray Proto Cage
 81:SMC Utility Kit
+82:HF van Niel T1
+105:Commando Brawler Bush Pack
+116:Outwear Demi Camo
+121:Kovac Praesidio
+122:Santonian Apparatu
 </DropDownList>
                   <ShowAsSigned>0</ShowAsSigned>
                   <Color>3964F4</Color>
@@ -6978,6 +6988,9 @@ GameAssembly.dll+75C385: 0F 84 28 01 00 00        - je GameAssembly.dll+75C4B3
 99:Azul Tinto
 107:Crimson Grit
 109:Onyx Corruption
+117:Viride Silva
+120:Santonian Vestis
+124:Desertum
 </DropDownList>
                   <ShowAsSigned>0</ShowAsSigned>
                   <Color>3964F4</Color>
@@ -16152,7 +16165,7 @@ unregistersymbol(Booster_Ptr)
         </CheatEntry>
         <CheatEntry>
           <ID>7784</ID>
-          <Description>"[Get Scripts] - R7/ALT:R1/R2/R3/R4"</Description>
+          <Description>"[Get Scripts] - R7 - ALT:R1/R2/R3/R4/R5"</Description>
           <Options moHideChildren="1"/>
           <Color>808000</Color>
           <GroupHeader>1</GroupHeader>
@@ -17960,7 +17973,7 @@ GameAssembly.dll+5F2D51: 48 8B 87 F8 01 00 00  - mov rax,[rdi+000001F8]
                           <Address>[player_local]+F0</Address>
                           <Offsets>
                             <Offset>18</Offset>
-                            <Offset>1D0</Offset>
+                            <Offset>1F0</Offset>
                           </Offsets>
                         </CheatEntry>
                         <CheatEntry>
@@ -17971,7 +17984,7 @@ GameAssembly.dll+5F2D51: 48 8B 87 F8 01 00 00  - mov rax,[rdi+000001F8]
                           <VariableType>Float</VariableType>
                           <Address>[player_local]+F8</Address>
                           <Offsets>
-                            <Offset>21C</Offset>
+                            <Offset>234</Offset>
                           </Offsets>
                         </CheatEntry>
                         <CheatEntry>
@@ -17982,7 +17995,7 @@ GameAssembly.dll+5F2D51: 48 8B 87 F8 01 00 00  - mov rax,[rdi+000001F8]
                           <VariableType>Float</VariableType>
                           <Address>[player_local]+F8</Address>
                           <Offsets>
-                            <Offset>220</Offset>
+                            <Offset>238</Offset>
                           </Offsets>
                         </CheatEntry>
                         <CheatEntry>
@@ -17993,7 +18006,7 @@ GameAssembly.dll+5F2D51: 48 8B 87 F8 01 00 00  - mov rax,[rdi+000001F8]
                           <VariableType>Float</VariableType>
                           <Address>[player_local]+F8</Address>
                           <Offsets>
-                            <Offset>224</Offset>
+                            <Offset>23C</Offset>
                           </Offsets>
                         </CheatEntry>
                         <CheatEntry>
@@ -18004,7 +18017,7 @@ GameAssembly.dll+5F2D51: 48 8B 87 F8 01 00 00  - mov rax,[rdi+000001F8]
                           <VariableType>Float</VariableType>
                           <Address>[player_local]+F8</Address>
                           <Offsets>
-                            <Offset>228</Offset>
+                            <Offset>240</Offset>
                           </Offsets>
                         </CheatEntry>
                         <CheatEntry>
@@ -18015,7 +18028,7 @@ GameAssembly.dll+5F2D51: 48 8B 87 F8 01 00 00  - mov rax,[rdi+000001F8]
                           <VariableType>Float</VariableType>
                           <Address>[player_local]+F8</Address>
                           <Offsets>
-                            <Offset>22C</Offset>
+                            <Offset>244</Offset>
                           </Offsets>
                         </CheatEntry>
                         <CheatEntry>
@@ -18029,7 +18042,7 @@ GameAssembly.dll+5F2D51: 48 8B 87 F8 01 00 00  - mov rax,[rdi+000001F8]
                           <VariableType>Byte</VariableType>
                           <Address>[player_local]+F8</Address>
                           <Offsets>
-                            <Offset>230</Offset>
+                            <Offset>248</Offset>
                           </Offsets>
                         </CheatEntry>
                         <CheatEntry>
@@ -18040,7 +18053,7 @@ GameAssembly.dll+5F2D51: 48 8B 87 F8 01 00 00  - mov rax,[rdi+000001F8]
                           <VariableType>Float</VariableType>
                           <Address>[player_local]+F8</Address>
                           <Offsets>
-                            <Offset>234</Offset>
+                            <Offset>24C</Offset>
                           </Offsets>
                         </CheatEntry>
                         <CheatEntry>
@@ -18051,7 +18064,7 @@ GameAssembly.dll+5F2D51: 48 8B 87 F8 01 00 00  - mov rax,[rdi+000001F8]
                           <VariableType>Float</VariableType>
                           <Address>[player_local]+F8</Address>
                           <Offsets>
-                            <Offset>238</Offset>
+                            <Offset>250</Offset>
                           </Offsets>
                         </CheatEntry>
                         <CheatEntry>
@@ -18062,7 +18075,7 @@ GameAssembly.dll+5F2D51: 48 8B 87 F8 01 00 00  - mov rax,[rdi+000001F8]
                           <VariableType>Float</VariableType>
                           <Address>[player_local]+F8</Address>
                           <Offsets>
-                            <Offset>23C</Offset>
+                            <Offset>254</Offset>
                           </Offsets>
                         </CheatEntry>
                         <CheatEntry>
@@ -18076,7 +18089,7 @@ GameAssembly.dll+5F2D51: 48 8B 87 F8 01 00 00  - mov rax,[rdi+000001F8]
                           <VariableType>Byte</VariableType>
                           <Address>[player_local]+F8</Address>
                           <Offsets>
-                            <Offset>240</Offset>
+                            <Offset>258</Offset>
                           </Offsets>
                         </CheatEntry>
                         <CheatEntry>
@@ -18087,7 +18100,7 @@ GameAssembly.dll+5F2D51: 48 8B 87 F8 01 00 00  - mov rax,[rdi+000001F8]
                           <VariableType>Float</VariableType>
                           <Address>[player_local]+F8</Address>
                           <Offsets>
-                            <Offset>244</Offset>
+                            <Offset>25C</Offset>
                           </Offsets>
                         </CheatEntry>
                         <CheatEntry>
@@ -18098,7 +18111,7 @@ GameAssembly.dll+5F2D51: 48 8B 87 F8 01 00 00  - mov rax,[rdi+000001F8]
                           <VariableType>Float</VariableType>
                           <Address>[player_local]+F8</Address>
                           <Offsets>
-                            <Offset>248</Offset>
+                            <Offset>260</Offset>
                           </Offsets>
                         </CheatEntry>
                         <CheatEntry>
@@ -18123,7 +18136,7 @@ GameAssembly.dll+5F2D51: 48 8B 87 F8 01 00 00  - mov rax,[rdi+000001F8]
                           <VariableType>Byte</VariableType>
                           <Address>[player_local]+F8</Address>
                           <Offsets>
-                            <Offset>25C</Offset>
+                            <Offset>274</Offset>
                           </Offsets>
                         </CheatEntry>
                         <CheatEntry>
@@ -18134,7 +18147,7 @@ GameAssembly.dll+5F2D51: 48 8B 87 F8 01 00 00  - mov rax,[rdi+000001F8]
                           <VariableType>Float</VariableType>
                           <Address>[player_local]+F8</Address>
                           <Offsets>
-                            <Offset>260</Offset>
+                            <Offset>278</Offset>
                           </Offsets>
                         </CheatEntry>
                         <CheatEntry>
@@ -18145,7 +18158,7 @@ GameAssembly.dll+5F2D51: 48 8B 87 F8 01 00 00  - mov rax,[rdi+000001F8]
                           <VariableType>Float</VariableType>
                           <Address>[player_local]+F8</Address>
                           <Offsets>
-                            <Offset>264</Offset>
+                            <Offset>27C</Offset>
                           </Offsets>
                         </CheatEntry>
                         <CheatEntry>
@@ -18156,7 +18169,7 @@ GameAssembly.dll+5F2D51: 48 8B 87 F8 01 00 00  - mov rax,[rdi+000001F8]
                           <VariableType>Float</VariableType>
                           <Address>[player_local]+F8</Address>
                           <Offsets>
-                            <Offset>268</Offset>
+                            <Offset>280</Offset>
                           </Offsets>
                         </CheatEntry>
                         <CheatEntry>
@@ -18167,7 +18180,7 @@ GameAssembly.dll+5F2D51: 48 8B 87 F8 01 00 00  - mov rax,[rdi+000001F8]
                           <VariableType>Float</VariableType>
                           <Address>[player_local]+F8</Address>
                           <Offsets>
-                            <Offset>26C</Offset>
+                            <Offset>284</Offset>
                           </Offsets>
                         </CheatEntry>
                         <CheatEntry>
@@ -18178,7 +18191,7 @@ GameAssembly.dll+5F2D51: 48 8B 87 F8 01 00 00  - mov rax,[rdi+000001F8]
                           <VariableType>Float</VariableType>
                           <Address>[player_local]+F8</Address>
                           <Offsets>
-                            <Offset>278</Offset>
+                            <Offset>290</Offset>
                           </Offsets>
                         </CheatEntry>
                         <CheatEntry>
@@ -18189,7 +18202,7 @@ GameAssembly.dll+5F2D51: 48 8B 87 F8 01 00 00  - mov rax,[rdi+000001F8]
                           <VariableType>Float</VariableType>
                           <Address>[player_local]+F8</Address>
                           <Offsets>
-                            <Offset>284</Offset>
+                            <Offset>29C</Offset>
                           </Offsets>
                         </CheatEntry>
                         <CheatEntry>
@@ -18200,7 +18213,7 @@ GameAssembly.dll+5F2D51: 48 8B 87 F8 01 00 00  - mov rax,[rdi+000001F8]
                           <VariableType>Float</VariableType>
                           <Address>[player_local]+F8</Address>
                           <Offsets>
-                            <Offset>290</Offset>
+                            <Offset>2A8</Offset>
                           </Offsets>
                         </CheatEntry>
                         <CheatEntry>
@@ -18211,7 +18224,7 @@ GameAssembly.dll+5F2D51: 48 8B 87 F8 01 00 00  - mov rax,[rdi+000001F8]
                           <VariableType>Float</VariableType>
                           <Address>[player_local]+F8</Address>
                           <Offsets>
-                            <Offset>29C</Offset>
+                            <Offset>2B4</Offset>
                           </Offsets>
                         </CheatEntry>
                       </CheatEntries>
@@ -23531,7 +23544,7 @@ local msg = [[
 Game: GTFO
 Platform: Steam
 Game Engine: Unity (IL2CPP)
-Game Version: Release 1.0 - ALT:Rundown #4
+Game Version: Release 1.0 - ALT:Rundown #5
 Process: GTFO.exe
 
 Anti-Cheat: None
@@ -23557,6 +23570,39 @@ if syntaxcheck then return end
 local msg = [[
 : Changelog :
 
+6/17/2023
+GTFO_0.2.9.964a
+[Player Settings] -&gt; Misc / Backpack Items / Weapons
++ Fixed Set Infection Amount To 0
++ Fixed Enable Booster Condition
++ Fixed Super Weapons
+
+[Enemy Settings] -&gt; Pouncer
++ Fixed Pouncer No Valid Target
+
+[Get Scripts] -&gt; [Player Related]
++ Adjusted pointer offsets
+
+[Lobby Settings] -&gt; Player Vanity
++ Added HF Hypsibius C [Helmet]
++ Added HF Arbustum Mark I [Helmet]
++ Added Omneco Reparo [Helmet]
++ Added Kovac Green Guard [Helmet]
++ Added Santonian Galea Mark I [Helmet]
++ Added Storax Aranea Mark I [Helmet]
++ Added Kovac Fortis Armis [Torso]
++ Added Kovac Fortis Cruba [Legs]
++ Added Outwear Demi Camo [Backpack]
++ Added Kovac Praesidio [Backpack]
++ Added Santonian Apparatu [Backpack]
++ Added Viride Silva [Palette]
++ Added Santonian Vestis [Palette]
++ Added Desertum [Palette]
+
+[Test Section]
++ Added No Target [NEW]
+^ Not sure if this affects all enemies including mini-bosses and bosses.
+
 6/7/2023
 GTFO_0.2.9.963a
 [Player Settings] -&gt; Weapons
@@ -23565,20 +23611,6 @@ GTFO_0.2.9.963a
 
 [Pre-Map Settings] -&gt; Elevator
 + Fast Elevator
-
-6/6/2023
-GTFO_0.2.9.962a
-[Player Settings] -&gt; Weapons
-+ Super Weapons (Similar to Instakill)
-+ Less Weapon Recoil
-+ Recoil Datablock (Current Held Weapon / Shoot To Update)
-^ Manually set your desired recoil although it may require a bit of tinkering to find what you prefer
-
-[Player Settings] -&gt; Weapon Ammo
-+ Refill Reserve (Swap/Shoot To Refill) [ Default Hotkey: F3 ]
-
-[Enemy Settings] -&gt; General
-+ Fixed Enemy Godmode
               ]]
 
 mShowMessage('', msg, true, 0)
@@ -23950,6 +23982,24 @@ nop
       <Color>00C4F4</Color>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
+        <CheatEntry>
+          <ID>1337105659</ID>
+          <Description>"No Target [NEW]"</Description>
+          <Color>399943</Color>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>[ENABLE]
+{$lua}
+{$asm}
+aobscanRegion(DisabledUpdateState,Enemies.EnemyBehaviour.UpdateState+000, Enemies.EnemyBehaviour.UpdateState+40, 40 53 48 83 EC 30)
+DisabledUpdateState:
+db C3
+
+[DISABLE]
+aobscanRegion(DisabledUpdateState,Enemies.EnemyBehaviour.UpdateState+000, Enemies.EnemyBehaviour.UpdateState+40, C3 53 48 83 EC 30)
+DisabledUpdateState:
+db 40
+</AssemblerScript>
+        </CheatEntry>
         <CheatEntry>
           <ID>1337105564</ID>
           <Description>"Booster Slot 1 (Muted Only)"</Description>
