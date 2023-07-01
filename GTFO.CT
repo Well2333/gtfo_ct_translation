@@ -6761,7 +6761,7 @@ GameAssembly.dll+189F705: 48 85 C0                 - test rax,rax
         </CheatEntry>
         <CheatEntry>
           <ID>1337104548</ID>
-          <Description>"[战利品（服装）设定]"</Description>
+          <Description>"[战利品（服装、强化剂）设定]"</Description>
           <Options moHideChildren="1"/>
           <Color>808000</Color>
           <GroupHeader>1</GroupHeader>
@@ -7486,7 +7486,7 @@ GameAssembly.dll+83254E: 33 D2              - xor edx,edx
             </CheatEntry>
             <CheatEntry>
               <ID>1337105745</ID>
-              <Description>"Boosters"</Description>
+              <Description>"强化剂"</Description>
               <Options moHideChildren="1"/>
               <GroupHeader>1</GroupHeader>
               <CheatEntries>
@@ -16171,13 +16171,13 @@ unregistersymbol(Booster_Ptr)
                 </CheatEntry>
                 <CheatEntry>
                   <ID>1337106231</ID>
-                  <Description>"Booster Presets [Custom]"</Description>
+                  <Description>"强化剂预设 [自定义]"</Description>
                   <Options moHideChildren="1"/>
                   <GroupHeader>1</GroupHeader>
                   <CheatEntries>
                     <CheatEntry>
                       <ID>1337106255</ID>
-                      <Description>"⚠ Important Notes ⚠"</Description>
+                      <Description>"⚠ 重要注意事项 ⚠"</Description>
                       <Color>1F70F5</Color>
                       <VariableType>Auto Assembler Script</VariableType>
                       <AssemblerScript>{$LUA}
@@ -16185,9 +16185,9 @@ if syntaxcheck then return end
 [ENABLE]
 
 local msg = [[
-1. You should only be enabling one preset at a time.
-2. Enabling a preset will overwrite all of your booster effects only for that instance. To reset them you'll need to exit your expedition or leave the lobby and re-join.
-3. Can other players see your edited effects? Yes... yes, they can.
+1. 您应该一次只启用一个预设。
+2. 启用一个预设会覆盖您所有的增益效果，仅在该实例中有效。要重置它们，您需要退出探险（拉回大厅）或离开大厅然后重新加入。
+3. 其他玩家能看到您编辑后的效果吗？是的...是的，他们可以看到。
               ]]
 
 mShowMessage('', msg, true, 0)
@@ -16200,7 +16200,7 @@ nop
                     </CheatEntry>
                     <CheatEntry>
                       <ID>1337105743</ID>
-                      <Description>"How To Create Your Own Preset"</Description>
+                      <Description>"如何创建你自己的预设"</Description>
                       <Color>00C4F4</Color>
                       <VariableType>Auto Assembler Script</VariableType>
                       <AssemblerScript>{$LUA}
@@ -16208,43 +16208,40 @@ if syntaxcheck then return end
 [ENABLE]
 
 local msg = [[
-Creating your own preset is easy just takes a small part of your time to get it setup.
-There are 3 things to look out for:
-- Trait Count
-- Effect ID
-- Effect Amount
+创建自己的预设非常简单，只需要花费一小部分时间进行设置。
 
-Let's choose the group that is named 3x Effects.
-When first opening there will be a Preset Example that I have made for that group. We won't be touching that instead you will need
-to select and open the "Customize Me 3x". If you don't know how to open the script just simply double-click on the "&lt;script&gt;" or you can right-click
-and select "Change Script".
+有三个要注意的事项：
 
-Steps:
-1. When opening up the script you should see a lot stuff...
-What you'll be looking for are these specifically:
-  mov [rax+18],#4 //&lt;--- "#2" trait count
-  mov [rax+20],#6 //effect 1
-  mov [rax+24],(float)2.00 //effect amount
+- 特性数量
+- 效果 ID
+- 效果数值
 
-2. Changing IDs and values.
-IMPORTANT: Your trait count must match the amount of effects you want. However, in this case it is already done for you. What you'll be editing in
-this case are the numbers that come after the "#" symbol and the (float).
+让我们选择名为 "3x Effects" 的组别。
+首次打开时，我已经为该组别制作了一个预设示例。我们不会对此进行更改，相反，您需要选择并打开 "Customize Me 3x"。如果您不知道如何打开脚本，只需双击 "&lt;script&gt;"，或者右键单击并选择 "Change Script"。
 
-  mov [rax+20],#6 //effect 1 (change the #6 to a #13 which will be Pistol Damage)
-  mov [rax+24],(float)2.00 //effect amount (this will be your percent amount. 1.00 = 0% while 2.00 = 100%, let's change the number after (float) to 3.00)
-NOTE: Your first effect will have "Pistol Damage 200%". If you're not sure you did it right what it should look like now is:
+步骤:
 
-  mov [rax+18],#4 //&lt;--- "#2" trait count
-  mov [rax+20],#13 //effect 1
-  mov [rax+24],(float)3.00 //effect amount
+1. 打开脚本后，您会看到很多内容...
+您需要特别注意以下内容：
+mov [rax+18],#4 //&lt;--- "#2" 特性数量
+mov [rax+20],#6 //效果 1
+mov [rax+24],(float)2.00 //效果数值
 
-3. Now do the samething for the other 2 effects and amounts. When you are done click the "Ok" at the bottom which will save the script(you can rename the script to whatever you want).
-However, if you wanted to save the script so that each time you started up the GTFO Table what you'll need to do is to save the Table itself. At the top left corner there are 3 icons,
-click the 3rd icon to save the (new) Table.
+2. 更改 ID 和数值。
+重要提示：您的特性数量必须与您想要的效果数量相匹配。但在这种情况下，已经为您完成了。您需要编辑的是 "#" 符号后面的数字和 (float)。
 
-4. Enable the new script you just edited and prepare/equip a booster. You should see all the new effects and values that you gave them. While enabled start the match until you are dropped
-off by the elevator then you can disable the script(this is to ensure that your new effects and values do not change on map generation). Hit you TAB key and hit the "O" keybind to view your
-active boosters. You should see your new effects there.
+mov [rax+20],#6 //效果 1（将 #6 改为 #13，即手枪伤害）
+mov [rax+24],(float)2.00 //效果数值（这将是您的百分比数值。1.00 = 0%，而 2.00 = 100%。让我们将 (float) 后面的数字改为 3.00）
+注意：您的第一个效果将变为 "手枪伤害 200%"。如果您不确定是否修改正确，现在应该是这样的：
+
+mov [rax+18],#4 //&lt;--- "#2" 特性数量
+mov [rax+20],#13 //效果 1
+mov [rax+24],(float)3.00 //效果数值
+
+3. 现在，对其他两个效果和数值执行相同的操作。完成后，点击底部的 "Ok" 按钮，这将保存脚本（您可以将脚本重命名为任何您想要的名称）。
+但是，如果您希望每次启动 GTFO Table 时都保存脚本，您需要保存 Table 本身。左上角有 3 个图标，点击第三个图标保存（新的）Table。
+
+启用您刚刚编辑的新脚本，并准备/装备增益器。您应该能够看到您所设定的所有新效果和数值。启用后，开始匹配，直到电梯将您送下来，然后禁用脚本（以确保您的新效果和数值不会在地图生成时更改）。按下 TAB 键，然后按下 "O" 键绑定以查看您的活动增益器。您应该在那里看到您的新效果。
               ]]
 
 mShowMessage('', msg, true, 0)
@@ -16257,14 +16254,14 @@ nop
                     </CheatEntry>
                     <CheatEntry>
                       <ID>1337106232</ID>
-                      <Description>"Effect ID List"</Description>
+                      <Description>"效果 ID 列表"</Description>
                       <Options moHideChildren="1"/>
                       <Color>00C4F4</Color>
                       <GroupHeader>1</GroupHeader>
                       <CheatEntries>
                         <CheatEntry>
                           <ID>1337106233</ID>
-                          <Description>"Weapons Effects"</Description>
+                          <Description>"武器效果"</Description>
                           <VariableType>Auto Assembler Script</VariableType>
                           <AssemblerScript>{$LUA}
 if syntaxcheck then return end
@@ -16272,30 +16269,30 @@ if syntaxcheck then return end
 
 local msg = [[
 [Weapon Effects]
-13:Pistol Damage
-49:Melee Weapon Damage (1)
-54:Melee Weapon Damage
-42:Machine Pistol Damage
-25:Machine Gun Damage
-22:Revolver Damage
-14:SMG Damage
-23:Sniper Damage
-53:Special Weapon Damage
-43:Rifle Damage
-21:Shotgun Damage
-46:Bullpup Rifle Damage
-16:Assault Rifle Damage
-18:Auto Pistol damage
-15:DMR Damage
-52:Standard Weapon Damage
-17:Carbine Damage
-44:Burst Rifle Damage
-48:Choke Mod Shotgun Damage
-47:Combat Shotgun Damage
-20:Heavy Assault Damage
-19:HEL Damage
-45:Double Tap Rifle Damage
-24:Burst Cannon Speed
+13:Pistol Damage 手枪伤害.
+49:Melee Weapon Damage (1) 近战伤害.
+54:Melee Weapon Damage 近战伤害.
+42:Machine Pistol Damage 机枪手枪伤害.
+25:Machine Gun Damage 机枪伤害.
+22:Revolver Damage 左轮手枪伤害.
+14:SMG Damage 冲锋枪伤害.
+23:Sniper Damage 狙击枪伤害.
+53:Special Weapon Damage 特殊武器伤害.
+43:Rifle Damage 步枪伤害.
+21:Shotgun Damage 霰弹枪伤害.
+46:Bullpup Rifle Damage 牛头式?步枪伤害.
+16:Assault Rifle Damage 突击步枪伤害.
+18:Auto Pistol damage 自动手枪伤害.
+15:DMR Damage 精确步枪伤害.
+52:Standard Weapon Damage 主武器伤害.
+17:Carbine Damage 卡宾枪伤害.
+44:Burst Rifle Damage 连发步枪伤害.
+48:Choke Mod Shotgun Damage 收束霰弹枪伤害.
+47:Combat Shotgun Damage 战斗霰弹枪伤害.
+20:Heavy Assault Damage 重型突击步枪伤害.
+19:HEL Damage 穿透伤害.
+45:Double Tap Rifle Damage 双发步枪伤害.
+24:Burst Cannon Speed 连发炮速度.
 
 0:None
               ]]
@@ -16310,7 +16307,7 @@ nop
                         </CheatEntry>
                         <CheatEntry>
                           <ID>1337106234</ID>
-                          <Description>"Ammo, Special Equipment Effects"</Description>
+                          <Description>"弹药，特殊装备效果"</Description>
                           <VariableType>Auto Assembler Script</VariableType>
                           <AssemblerScript>{$LUA}
 if syntaxcheck then return end
@@ -16318,19 +16315,19 @@ if syntaxcheck then return end
 
 local msg = [[
 [Ammo Effects]
-50:Ammo Support
-38:Initial Tool Ammo
-37:Inital Ammo Special
-36:Initial Ammo Standard
+50:Ammo Support 补给效率.
+38:Initial Tool Ammo 初始工具弹药.
+37:Inital Ammo Special 特殊弹药.
+36:Initial Ammo Standard 主弹药.
 
 [Special Equipment]
-33:Scanner Recharge Speed
-26:Glue Strength
-31:Sentry Gun Short Range Damage
-28:Sentry Gun Speed
-29:Sentry Gun Damage
-30:Sentry Gun Long Range Damage
-32:Trip Mine Damage
+33:Scanner Recharge Speed 追踪器CPU速度.
+26:Glue Strength 结沫强度.
+31:Sentry Gun Short Range Damage 近程哨戒炮伤害.
+28:Sentry Gun Speed 哨戒炮CPU速度.
+29:Sentry Gun Damage 哨戒炮伤害.
+30:Sentry Gun Long Range Damage 远程哨戒炮伤害.
+32:Trip Mine Damage 绊雷伤害.
 
 0:None
               ]]
@@ -16345,7 +16342,7 @@ nop
                         </CheatEntry>
                         <CheatEntry>
                           <ID>1337106235</ID>
-                          <Description>"Resistance, Health, Environment, Pocket Item Effects"</Description>
+                          <Description>"抗性，生命，环境，口袋物品效果"</Description>
                           <VariableType>Auto Assembler Script</VariableType>
                           <AssemblerScript>{$LUA}
 if syntaxcheck then return end
@@ -16353,26 +16350,26 @@ if syntaxcheck then return end
 
 local msg = [[
 [Health Effects]
-5:Regeneration Cap
-6:Regeneration Speed
-9:Revive Start Health
-8:Revive Speed
-7:Heal Support
+5:Regeneration Cap 恢复上限.
+6:Regeneration Speed 恢复速度.
+9:Revive Start Health 复活初始生命.
+8:Revive Speed 复活速度.
+7:Heal Support 治疗效率.
 
 [Resistance Effects]
-11:Projectile Resistance
-10:Melee Resistance
-12:Infection Resistance
+11:Projectile Resistance 炮弹抗性.
+10:Melee Resistance 近战抗性.
+12:Infection Resistance 感染抗性.
 
 [Environment Effects]
-35:Computer Processing Speed
-27:Glue Efficiency
-41:Bioscan Speed
+35:Computer Processing Speed 终端响应速度.
+27:Glue Efficiency 结沫分量.
+41:Bioscan Speed 生物扫描速度.
 
 [Tools &amp; Pocket Item Effects]
-34:Hacking Proficiency
-39:Fog Repeller Effect
-40:Glowstick Effect
+34:Hacking Proficiency 侵入技能.
+39:Fog Repeller Effect 驱雾器效率.
+40:Glowstick Effect 发光棒效率.
 
 0:None
               ]]
@@ -25008,7 +25005,7 @@ nop
     </CheatEntry>
     <CheatEntry>
       <ID>1337106256</ID>
-      <Description>"Translation Credits"</Description>
+      <Description>"翻译致谢"</Description>
       <Color>808000</Color>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{$LUA}
@@ -25032,14 +25029,14 @@ nop
     </CheatEntry>
     <CheatEntry>
       <ID>1337106257</ID>
-      <Description>"Supported Languages"</Description>
+      <Description>"支持的语言 / Supported Languages"</Description>
       <Options moHideChildren="1"/>
       <Color>808000</Color>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
         <CheatEntry>
           <ID>1337106258</ID>
-          <Description>"Simplified Chinese (GTFO_v0.2.9.964a_zh)"</Description>
+          <Description>"简体中文 / Simplified Chinese (GTFO_v0.2.9.964a_zh)"</Description>
           <Color>808000</Color>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{$LUA}
